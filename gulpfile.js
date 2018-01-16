@@ -9,19 +9,18 @@
  * 6. Watches files for changes in PHP.
  * 7. Corrects the line endings.
  * 8. InjectCSS instead of browser page reload.
- * 9. Generates favicons
  * 10. Generates .pot file for i18n and l10n.
  */
  
 // START Editing Project Variables
-var project                 = 'Base_Install'; // Project Name.
+var project                 = 'Base_Install_Five'; // Project Name.
 var projectURL              = 'dev8'; // Project URL. Could be something like localhost:8888.
 var productURL              = './'; // Theme/Plugin URL. Leave it like it is, since our gulpfile.js lives in the root folder.
 
 // Translation related
-var text_domain             = 'baseinstall'; // Your textdomain here.
-var destFile                = 'baseinstall.pot'; // Name of the transalation file.
-var packageName             = 'baseinstall'; // Package name.
+var text_domain             = 'baseinstallfive'; // Your textdomain here.
+var destFile                = 'baseinstallfive.pot'; // Name of the transalation file.
+var packageName             = 'baseinstallfive'; // Package name.
 var bugReport               = 'https://www.mikejandreau.net/contact/'; // Where can users report bugs.
 var lastTranslator          = 'First Last <your_email@email.com>'; // Last translator Email ID.
 var team                    = 'WPTie <your_email@email.com>'; // Team's Email ID.
@@ -34,6 +33,10 @@ var styleDestination        = './assets/css/'; // Places compiled CSS file in ro
 // Admin Style related
 var styleAdminSRC           = './assets/scss/login-style.scss'; // Path to main .scss file.
 var styleAdminDestination   = './assets/css/'; // Path to place compiled admin CSS file
+
+// Shop Style related
+var styleShopSRC           = './assets/scss/shop-style.scss'; // Path to main .scss file.
+var styleShopDestination   = './assets/css/'; // Path to place compiled shop CSS file
 
 // JavaScript related
 // var scriptSRC             = './assets/js/vendor/*.js'; // Path to JS folder if you don't care about concat order
@@ -54,12 +57,6 @@ var scriptFile            = 'main'; // Compiled JS file name.
 // Images
 var imagesSRC               = './assets/img/raw/**/*.{png,jpg,gif,svg}'; // Source folder of unoptimized images
 var imagesDestination       = './assets/img/'; // Destination folder of optimized images
-
-// Favicons
-var faviconSRC              = './assets/favicons/_favicon.svg'; // Source folder of favicons
-var faviconAdminSRC         = './assets/favicons/_admin-favicon.svg'; // Source admin favicon
-var faviconDestination      = './assets/favicons/'; // Destination folder of favicons
-var faviconDataFile         = './assets/favicons/faviconData.json'; // File where the favicon markups are stored
 
 // Watch file paths
 var styleWatchFiles         = './assets/scss/**/*.scss'; // Path to all *.scss files inside css folder and inside them
@@ -99,9 +96,6 @@ var uglify       = require('gulp-uglify'); // Minifies JS files
 
 // Image related plugins
 var imagemin     = require('gulp-imagemin'); // Minify PNG, JPEG, GIF and SVG images with imagemin.
-
-// Favicon related plugins
-var realFavicon  = require ('gulp-real-favicon');
 
 // Utility plugins
 var rename       = require('gulp-rename'); // Renames files E.g. style.css -> style.min.css
@@ -224,72 +218,6 @@ gulp.task( 'images', function() {
   } ) )
   .pipe(gulp.dest( imagesDestination ))
   .pipe( notify( { message: 'TASK: "images" Completed! 💯', onLast: true } ) );
-});
-
-// FAVICONS TASK 
-// Run 'gulp generate-favicon' to create icons - see http://realfavicongenerator.net/ for configuration options
-gulp.task('generate-favicon', function(done) {
-  realFavicon.generateFavicon({
-    // masterPicture: ( faviconAdminSRC ), // Uncomment this line and run 'gulp generate-favicon', then rename favicon.ico to admin-favicon.ico
-    masterPicture: ( faviconSRC ), // Run regular favicon task
-    dest: ( faviconDestination ),
-    iconsPath: ( faviconDestination ),
-    design: {
-      ios: {
-        pictureAspect: 'backgroundAndMargin',
-        backgroundColor: '#ffffff',
-        margin: '0%',
-        assets: {
-          ios6AndPriorIcons: false,
-          ios7AndLaterIcons: false,
-          precomposedIcons: false,
-          declareOnlyDefaultIcon: true
-        }
-      },
-      desktopBrowser: {},
-      windows: {
-        pictureAspect: 'whiteSilhouette',
-        backgroundColor: '#00aba9',
-        onConflict: 'override',
-        assets: {
-          windows80Ie10Tile: false,
-          windows10Ie11EdgeTiles: {
-            small: false,
-            medium: true,
-            big: false,
-            rectangle: false
-          }
-        }
-      },
-      androidChrome: {
-        pictureAspect: 'backgroundAndMargin',
-        margin: '17%',
-        backgroundColor: '#ffffff',
-        themeColor: '#ffffff',
-        manifest: {
-          display: 'standalone',
-          orientation: 'notSet',
-          onConflict: 'override',
-          declared: true
-        },
-        assets: {
-          legacyIcon: false,
-          lowResolutionIcons: false
-        }
-      },
-      safariPinnedTab: {
-        pictureAspect: 'silhouette',
-        themeColor: '#43cea2'
-      }
-    },
-    settings: {
-      scalingAlgorithm: 'Mitchell',
-      errorOnImageTooSmall: false
-    },
-    markupFile: faviconDataFile
-  }, function() {
-    done();
-  });
 });
 
 // WP POT
