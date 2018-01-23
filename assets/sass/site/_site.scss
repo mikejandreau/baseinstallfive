@@ -9,3 +9,72 @@
 ## Comments
 --------------------------------------------------------------*/
 @import "primary/comments";
+
+// a few layout things
+// * {
+// 	box-sizing: border-box;
+// }
+
+.site-header {
+	width: 100%;
+	padding: 30px 20px 30px 30px;
+	margin-bottom: 30px;
+}
+.site-content {
+	width: 100%;
+	padding: 0 30px;
+	margin-bottom: 30px;
+}
+.site-footer {
+	width: 100%;
+	padding: 30px;
+}
+
+// .site-header {
+// 	background: rgba(255,0,0,0.3); // red
+// }
+.site-branding {
+	// background: rgba(0,255,0,0.3); // green
+	display: inline-block;
+	
+	h1 {
+		margin: 0;
+		font-size: 20px;
+		line-height: 24px;
+	}
+}
+.main-navigation {
+	// background: rgba(255,0,0,0.3); // red
+	display: inline-block;
+	float: right;
+	width: auto;
+	line-height: 24px;
+
+	li a {
+		padding: 0 10px;
+	}
+
+	// li + li {
+	// 	margin-left: 10px;
+	// }
+}
+
+
+// .site-content {
+// 	background: rgba(128,0,128,0.3); // purple
+// }
+// .content-area {
+// 	border: 1px solid rgba(255,0,0,0.9); // red
+// }
+// .site-main {
+// 	// background: rgba(0,255,0,0.3); // green
+// 	// border: 1px solid rgba(255,0,0,0.9); // red
+// 	padding-right: 30px;
+// }
+// .widget-area {
+// 	background: rgba(255,255,0,0.3); //yellow
+// }
+
+// .site-footer {
+// 	background: rgba(255,0,0,0.3); // red
+// }
