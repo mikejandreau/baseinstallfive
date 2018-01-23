@@ -27,40 +27,36 @@ var team                    = 'WPTie <your_email@email.com>'; // Team's Email ID
 var translatePath           = './languages' // Where to save the translation files.
 
 // Style related
-var styleSRC                = './assets/scss/main.scss'; // Path to main .scss file.
+var styleSRC                = './assets/sass/styles.scss'; // Path to main .scss file.
 var styleDestination        = './assets/css/'; // Places compiled CSS file in root folder, could also be './assets/css/' or some other folder, just remember to update file path in functions.php
 
-// Admin Style related
-var styleAdminSRC           = './assets/scss/login-style.scss'; // Path to main .scss file.
-var styleAdminDestination   = './assets/css/'; // Path to place compiled admin CSS file
-
 // Shop Style related
-var styleShopSRC           = './assets/scss/shop-style.scss'; // Path to main .scss file.
+var styleShopSRC           = './assets/sass/woocommerce.scss'; // Path to main .scss file.
 var styleShopDestination   = './assets/css/'; // Path to place compiled shop CSS file
 
 // JavaScript related
 // var scriptSRC             = './assets/js/vendor/*.js'; // Path to JS folder if you don't care about concat order
 var scriptSRC             = [
                               // './assets/js/vendor/jquery-2.2.4.js', // Include jQuery if you want
-                              './assets/js/vendor/class-helpers.js', // Pure JS class toggling
-                              './assets/js/vendor/skip-link-focus-fix.js', // WP skip link
-                              './assets/js/vendor/prism.js', // syntax highlighter for code blocks (optional, has associated SASS file for styles/themes)
-                              './assets/js/vendor/autosize.js', // autosize text area in forms to fit content (optional)
-                              './assets/js/vendor/baguetteBox.js', // pure js image lightbox & slideshow (optional)
-                              './assets/js/vendor/isotope-pkgd.js', // category filtering and masonry layouts (optional)
-                              './assets/js/vendor/flickity.pkgd.js', // slideshow carousel plugin (optional)
-                              './assets/js/custom/*.js' // menu-controls.js, scroll-to-top.js, etc.
+                              // './assets/js/vendor/class-helpers.js', // Pure JS class toggling
+                              // './assets/js/vendor/skip-link-focus-fix.js', // WP skip link
+                              // './assets/js/vendor/prism.js', // syntax highlighter for code blocks (optional, has associated SASS file for styles/themes)
+                              // './assets/js/vendor/autosize.js', // autosize text area in forms to fit content (optional)
+                              // './assets/js/vendor/baguetteBox.js', // pure js image lightbox & slideshow (optional)
+                              // './assets/js/vendor/isotope-pkgd.js', // category filtering and masonry layouts (optional)
+                              // './assets/js/vendor/flickity.pkgd.js', // slideshow carousel plugin (optional)
+                              // './assets/js/custom/*.js' // menu-controls.js, scroll-to-top.js, etc.
+                              './assets/js/vendor/skip-link-focus-fix.js' // WP skip link
                             ]; // Path to JS vendor and custom files in order.
 var scriptDestination     = './assets/js/'; // Path to save the compiled JS file.
-var scriptFile            = 'main'; // Compiled JS file name.
+var scriptFile            = 'scripts'; // Compiled JS file name.
 
 // Images
 var imagesSRC               = './assets/img/raw/**/*.{png,jpg,gif,svg}'; // Source folder of unoptimized images
 var imagesDestination       = './assets/img/'; // Destination folder of optimized images
 
 // Watch file paths
-var styleWatchFiles         = './assets/scss/**/*.scss'; // Path to all *.scss files inside css folder and inside them
-var styleAdminWatchFiles    = ['./assets/scss/base/*.scss', './assets/scss/login-style.scss'] ; // Path to admin SCSS file
+var styleWatchFiles         = './assets/sass/**/*.scss'; // Path to all *.scss files inside css folder and inside them
 var scriptJSWatchFiles      = ['./assets/js/vendor/*.js', './assets/js/custom/*.js']; // Path to all JS files.
 var projectPHPWatchFiles    = './**/*.php'; // Path to all PHP files.
 
@@ -153,40 +149,6 @@ gulp.task('styles', function () {
   .pipe( notify( { message: 'TASK: "styles" Completed! 💯', onLast: true } ) )
 });
 
-// LOGIN SCREEN STYLE TASK
-// Compile SCSS, add vendor prefixes, minify, save to assets/css directory
-gulp.task('login-styles', function () {
-  gulp.src( styleAdminSRC )
-  .pipe( sourcemaps.init() )
-  .pipe( sass( {
-    errLogToConsole: true,
-      // outputStyle: 'compact',
-      outputStyle: 'compressed',
-      // outputStyle: 'nested',
-      // outputStyle: 'expanded',
-      precision: 10
-    } ) )
-  .on('error', console.error.bind(console))
-  .pipe( sourcemaps.write( { includeContent: false } ) )
-  .pipe( sourcemaps.init( { loadMaps: true } ) )
-  .pipe( autoprefixer( AUTOPREFIXER_BROWSERS ) )
-  .pipe( sourcemaps.write ( './' ) ) // Write sourcemap to same folder
-  .pipe( lineec() ) // Consistent Line Endings for non UNIX systems
-  .pipe( gulp.dest( styleAdminDestination ) )
-  .pipe( filter( '**/*.css' ) ) // Filtering stream to only css files
-  .pipe( mmq( { log: true } ) ) // Merge Media Queries only for .min.css version
-  .pipe( browserSync.stream() ) // Reloads style.css if that is enqueued
-  .pipe( rename( { suffix: '.min' } ) )
-  .pipe( minifycss( {
-    maxLineLen: 10
-  }))
-  .pipe( lineec() ) // Consistent Line Endings for non UNIX systems
-  .pipe( gulp.dest( styleAdminDestination ) )
-  .pipe( filter( '**/*.css' ) ) // Filtering stream to only css files
-  .pipe( browserSync.stream() ) // Reloads style.min.css if that is enqueued
-  .pipe( notify( { message: 'TASK: "login-styles" Completed! 💯', onLast: true } ) )
-});
-
 // SCRIPTS TASK
 // Get JS source files, error check, concat, rename, minify, save to JS folder
 gulp.task( 'scripts', function() {
@@ -239,9 +201,8 @@ gulp.task( 'translate', function () {
 
 // WATCH TASK
 // Watch files for changes and reload
-gulp.task( 'default', ['styles', 'login-styles', 'scripts', 'images', 'browser-sync'], function () {
+gulp.task( 'default', ['styles', 'scripts', 'images', 'browser-sync'], function () {
   gulp.watch( projectPHPWatchFiles, reload ); // Reload on PHP file changes.
   gulp.watch( styleWatchFiles, [ 'styles' ] ); // Reload on SCSS file changes.
-  gulp.watch( styleAdminWatchFiles, [ 'login-styles' ] ); // Reload on SCSS file changes.
   gulp.watch( scriptJSWatchFiles, [ 'scripts', reload ] ); // Reload on scripts file changes.
 });
